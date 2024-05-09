@@ -4,4 +4,11 @@
 # dir
 .idea/
 build/
+DebugConfig/
+Listings
+Objects
 
+# files
+EventRecorderStub.scvd
+*.uvguix.*
+*.uvoptx
