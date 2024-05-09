@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTimerEvent>
+#include <QCloseEvent>
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QTimer>
@@ -25,34 +26,37 @@ public:
     ~MainWindow() override;
 
     void setDev(const QString& name);
-
-    void scanCom(const QString& comName);
-
+    void scanComs();
     void setPkg(const QByteArray& pkg);
 
 protected:
     void timerEvent(QTimerEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
+
+signals:
+    void portPlugin(QString portName);
+    void next();
 
 private:
     void init();
-
     void readBuff();
-
+    void rev();
     void serialError(QSerialPort::SerialPortError error);
 
 private:
     Ui::MainWindow *ui;
 
-    QSerialPort *m_serial;
+    QSerialPort *m_serial = nullptr;
     QStringList m_coms;
-    int m_timerID;
+    int m_timerID = 0;
     QByteArray m_pkg;
     uint8_t m_status = SEARCH;
 
     QString m_devName;
+    QString m_portName;
 
-    QTimer *m_scanTimer;
-
+    QTimer *m_scanTimer = nullptr;
+    int m_portIndex = 0;
 };
 
 
